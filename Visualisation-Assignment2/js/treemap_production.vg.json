@@ -9,7 +9,7 @@
   "data": [
     {
       "name": "tree",
-      "url": "https://raw.githubusercontent.com/Colala65/FIT3179-Week10-HW/main/Week-10-Homework-Code/data/meat_production_cleaned.csv",
+      "url": "https://raw.githubusercontent.com/Colala65/FIT3179-Assignment2/main/Visualisation-Assignment2/data/meat_production_cleaned.csv",
       "transform": [
         {
           "type": "stratify",
@@ -41,7 +41,7 @@
   ]
 
   "data": {
-    "url": "https://raw.githubusercontent.com/Colala65/FIT3179-Week10-HW/main/Week-10-Homework-Code/data/meat_production_cleaned.csv"   
+    "url": "https://raw.githubusercontent.com/Colala65/FIT3179-Assignment2/main/Visualisation-Assignment2/data/meat_production_cleaned.csv"   
   },
   "params": [
     {

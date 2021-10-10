@@ -13,7 +13,7 @@
   ],
 
   "data": {
-    "url": "https://raw.githubusercontent.com/Colala65/FIT3179-Week10-HW/main/Week-10-Homework-Code/data/meat_consumption_1990-2028.csv"   
+    "url": "https://raw.githubusercontent.com/Colala65/FIT3179-Assignment2/main/Visualisation-Assignment2/data/meat_consumption_1990-2028.csv"   
   },
   "mark": {
     "type": "line",

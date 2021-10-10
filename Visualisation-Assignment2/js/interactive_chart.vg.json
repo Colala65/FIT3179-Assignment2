@@ -1,0 +1,61 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Total Meat Consumption (1990–2018)",
+  "width": 500,
+  "height": 500,
+  "data": {
+    "url": "https://raw.githubusercontent.com/Colala65/FIT3179-Week10-HW/main/Week-10-Homework-Code/data/meat_consumption_1990-2028.csv"   
+  },
+
+  "transform": [
+    {"filter": "datum['Value_tonnes'] > 0"}
+  ],
+  
+  "encoding": {
+    "x": {
+    "field": "Year",
+    "type": "temporal",
+    "timeUnit": "year"
+    }
+  },
+  "layer": [
+    {
+      "encoding": {
+        "color": {"field": "SUBJECT", "type": "nominal", "title": "Meat Type"},
+        "y": {"field": "Value_tonnes", "aggregate": "sum", "title": "Meat Consumption (tonnes)"}
+      },
+      "layer": [
+        {"mark": "line"},
+        {"transform": [{"filter": {"param": "hover", "empty": false}}], "mark": "point"}
+      ]
+    },
+    {
+      "transform": [{"pivot": "SUBJECT", "value": "Value_tonnes", "groupby": ["Year"]}],
+      
+      "mark": "rule",
+      "encoding": {
+        "opacity": {
+          "condition": {"value": 0.3, "param": "hover", "empty": false},
+          "value": 0
+        },
+        "tooltip": [
+          {"field": "Year", "type": "temporal", "timeUnit": "year", "title": "Year"},
+          {"field": "BEEF", "type": "quantitative", "format": ",.2f"},
+          {"field": "PIG", "type": "quantitative", "format": ",.2f"},
+          {"field": "POULTRY", "type": "quantitative", "format": ",.2f"},
+          {"field": "SHEEP", "type": "quantitative", "format": ",.2f"}
+        ]
+      },
+      "params": [{
+        "name": "hover",
+        "select": {
+          "type": "point",
+          "fields": ["Year"],
+          "nearest": true,
+          "on": "mouseover",
+          "clear": "mouseout"
+        }
+      }]
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Meat Production and Consumption (1961-2018)",
+  "width": 500,
+  "height": 500,
+  "projection": {"type": "equirectangular"},
+  "params": [
+    {
+      "name": "Year_selection",
+      "value": 2018,
+      "bind": {"input": "range", "min": 1961, "max": 2018, "step": 1, "name": "Year: "}
+    }
+  ],
+
+  "data": {
+    "url": "https://raw.githubusercontent.com/Colala65/FIT3179-Week10-HW/main/Week-10-Homework-Code/data/meat_consumption_1990-2028.csv"   
+  },
+  "mark": {
+    "type": "line",
+    "interpolate": "monotone"
+  },
+  "encoding": {
+    "x": {
+      "field": "TIME",
+      "timeUnit": "year",
+      "title": "Year"
+    },
+    "y": {
+      "field": "Value_kg",
+      "aggregate": "sum",
+      "title": "Meat Consumption (kg)"
+    },
+    "color": {
+      "type": "nominal",
+      "field": "SUBJECT",
+      "title": "Meat Type"
+    }
+  }
+}

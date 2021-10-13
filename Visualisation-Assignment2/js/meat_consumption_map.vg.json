@@ -1,14 +1,14 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": "Meat Consumption around the world (1961-2018)",
-  "width": 800,
-  "height": 600,
+  "title": "Meat Consumption around the world (1961-2017)",
+  "width": 850,
+  "height": 500,
   "projection": {"type": "equirectangular"},
   "params": [
     {
       "name": "Year_selection",
-      "value": 2018,
-      "bind": {"input": "range", "min": 1961, "max": 2018, "step": 1, "name": "Year: "}
+      "value": 2017,
+      "bind": {"input": "range", "min": 1961, "max": 2017, "step": 1, "name": "Year: "}
     }
   ],
 
@@ -32,7 +32,7 @@
     },
     {
       "data": {
-        "url": "https://raw.githubusercontent.com/Colala65/FIT3179-Assignment2/main/Visualisation-Assignment2/data/meat_production_cleaned.csv"   
+        "url": "https://raw.githubusercontent.com/Colala65/FIT3179-Assignment2/main/Visualisation-Assignment2/data/meat_consumption_cleaned.csv"   
       },
       
       "transform": [{
@@ -46,8 +46,7 @@
             },
             "as": "geo"
           },
-          {"filter": "datum.Year == Year_selection"},
-          {"calculate": "datum.Production/datum.Population * 1000", "as": "Production per population"}
+          {"filter": "datum.Year == Year_selection"}
       ],
       "mark": {
         "type": "geoshape",
@@ -59,12 +58,11 @@
           "field": "geo",
           "type": "geojson"
         },
-        "color": {"field": "Production per population", "type": "quantitative", "title": "Production (kg per person)"},
+        "color": {"field": "Consumption", "type": "quantitative", "title": "Consumption (kg per person)"},
+
         "tooltip": [
           {"field": "Entity", "type": "nominal", "title": "Country"},
-          {"field": "Production per population", "type": "quantitative", "title": "Production per population"},
-          {"field": "Production", "type": "quantitative", "title": "Production"},
-          {"field": "Population", "type": "quantitative", "title": "Population"}
+          {"field": "Consumption", "type": "quantitative", "title": "Consumption per population"}
         ]
       }
     }

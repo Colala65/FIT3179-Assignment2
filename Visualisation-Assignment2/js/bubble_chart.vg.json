@@ -47,15 +47,15 @@
     "x": {
       "field": "GDP per capita",
       "type": "quantitative",
-      "axis": {"tickCount": 5},
-      "scale": {"type": "log", "domain": [1, 1000000]}
+      "axis": {"tickCount": 4},
+      "scale": {"type": "log", "domain": [1, 200000]}
     },
     "y": {
       "field": "Consumption",
       "type": "quantitative",
       "title": "Consumption (kg per person)",
-      "axis": {"tickCount": 4},
-      "scale": {"type": "log", "domain": [1, 100000]}
+      "axis": {"tickCount": 3},
+      "scale": {"type": "log", "domain": [1, 1000]}
     }
   },
 
@@ -103,8 +103,8 @@
         "type": "text",
         "align": "right",
         "baseline": "middle",
-        "dx": -10,
-        "fontSize": 10
+        "dx": -5,
+        "fontSize": 10.5
       },
       "encoding": {
         "text": {"field": "Entity", "type": "nominal"},

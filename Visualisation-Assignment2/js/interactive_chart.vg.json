@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": "Total Meat Consumption (1990–2018)",
-  "width": 500,
+  "width": 790,
   "height": 500,
   "data": {
     "url": "https://raw.githubusercontent.com/Colala65/FIT3179-Assignment2/main/Visualisation-Assignment2/data/meat_consumption_1990-2028.csv"   

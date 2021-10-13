@@ -1,14 +1,14 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": "Meat Production around the world (1961–2018)",
+  "title": "Meat Production around the world (1961–2017)",
   "width": 850,
   "height": 500,
   "projection": {"type": "equirectangular"},
   "params": [
     {
       "name": "Year_selection",
-      "value": 2018,
-      "bind": {"input": "range", "min": 1961, "max": 2018, "step": 1, "name": "Year: "}
+      "value": 2017,
+      "bind": {"input": "range", "min": 1961, "max": 2017, "step": 1, "name": "Year: "}
     }
   ],
 

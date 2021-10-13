@@ -12,6 +12,7 @@
       "value": 2017,
       "bind": {"input": "range", "min": 1990, "max": 2017, "step": 1, "name": "Year: "}
     },
+    
     {
       "name": "Continent_selection",
       "bind": {
@@ -110,7 +111,7 @@
         "color": {"value": "black"},
         "opacity": {
           "condition":{
-            "test": "datum.Entity == 'Australia' || datum.Entity == 'New Zealand' || datum.Entity == 'China' || datum.Entity == 'Ireland' || datum.Entity == 'Denmark'",
+            "test": "datum.Entity == 'Australia'",
             "value": 1 
           },
           "value": 0 

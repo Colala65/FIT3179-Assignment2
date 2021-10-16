@@ -1,6 +1,11 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": "Meat Production around the world (1961–2017)",
+  "title": "Meat Production around the World (1961–2017)",
+  "config": {
+    "background": "transparent",
+    "view": {"stroke": "transparent"},
+    "font": "Open Sans"
+  },
   "width": 850,
   "height": 500,
   "projection": {"type": "equirectangular"},
@@ -62,7 +67,7 @@
         "color": {"field": "Production per population", "type": "quantitative", "title": "Production (kg per person)"},
         "tooltip": [
           {"field": "Entity", "type": "nominal", "title": "Country"},
-          {"field": "Production per population", "type": "quantitative", "format": ",", "title": "Production per population"},
+          {"field": "Production per population", "type": "quantitative", "format": ",.2f", "title": "Production per population"},
           {"field": "Production", "type": "quantitative", "title": "Production", "format": ","},
           {"field": "Population", "type": "quantitative", "title": "Population", "format": ","}
         ]

@@ -1,28 +1,39 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": "Total Meat Consumption (1990–2018)",
+  "title": "Total Meat Consumption (1990–2030)",
+  "config": {
+    "background": "white",
+    "view": {"stroke": "transparent"},
+    "font": "Open Sans"
+  },
   "width": 790,
   "height": 500,
   "data": {
-    "url": "https://raw.githubusercontent.com/Colala65/FIT3179-Assignment2/main/Visualisation-Assignment2/data/meat_consumption_1990-2028.csv"   
+    "url": "https://raw.githubusercontent.com/Colala65/FIT3179-Assignment2/main/Visualisation-Assignment2/data/meat_data_cleaned.csv"   
   },
 
   "transform": [
-    {"filter": "datum['Value_tonnes'] > 0"}
+    {"filter": "datum['Consumption'] > 0"},
+    {"filter": "datum['Country'] == 'WORLD'"}
   ],
   
   "encoding": {
     "x": {
     "field": "Year",
     "type": "temporal",
-    "timeUnit": "year"
+    "timeUnit": "year",
+    "title": "Year",
+    "axis": {"tickCount": {"step": 5, "interval": "year"}, "titleFontSize": 13, "labelFontSize": 11.5}
     }
   },
   "layer": [
     {
       "encoding": {
-        "color": {"field": "SUBJECT", "type": "nominal", "title": "Meat Type"},
-        "y": {"field": "Value_tonnes", "aggregate": "sum", "title": "Meat Consumption (tonnes)"}
+        "color": {"field": "Type", "type": "nominal", "title": "Meat Type",
+          "legend":{"titleFontSize": 13, "labelFontSize": 12}, "scale": {"range": ["#bf5b17", "#d62728", "#ff7f0e", "#1f77b4"]}
+        },
+        "y": {"field": "Consumption", "type": "quantitative", "title": "Meat Consumption (tonnes)",
+          "axis": {"tickCount": 6, "titleFontSize": 13, "labelFontSize": 11.5}}
       },
       "layer": [
         {"mark": "line"},
@@ -30,7 +41,7 @@
       ]
     },
     {
-      "transform": [{"pivot": "SUBJECT", "value": "Value_tonnes", "groupby": ["Year"]}],
+      "transform": [{"pivot": "Type", "value": "Consumption", "groupby": ["Year"]}],
       
       "mark": "rule",
       "encoding": {
@@ -40,10 +51,10 @@
         },
         "tooltip": [
           {"field": "Year", "type": "temporal", "timeUnit": "year", "title": "Year"},
-          {"field": "BEEF", "type": "quantitative", "format": ",.2f"},
-          {"field": "PIG", "type": "quantitative", "format": ",.2f"},
-          {"field": "POULTRY", "type": "quantitative", "format": ",.2f"},
-          {"field": "SHEEP", "type": "quantitative", "format": ",.2f"}
+          {"field": "Beef", "type": "quantitative", "format": ",.0f"},
+          {"field": "Pig", "type": "quantitative", "format": ",.0f"},
+          {"field": "Poultry", "type": "quantitative", "format": ",.0f"},
+          {"field": "Sheep", "type": "quantitative", "format": ",.0f"}
         ]
       },
       "params": [{
@@ -56,6 +67,17 @@
           "clear": "mouseout"
         }
       }]
+    },
+    {
+      "mark": {"type": "rule", "color": "#fad027", "size": 2},
+      "encoding": {
+        "x": {"field": "Year", "type": "temporal"}
+      },
+      "data":{
+        "values": [
+          {"Year": "2021"}
+        ]
+      }
     }
   ]
 }

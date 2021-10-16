@@ -1,6 +1,11 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": "Meat Consumption and GDP per capita (2020)",
+  "config": {
+    "background": "white",
+    "view": {"stroke": "transparent"},
+    "font": "Open Sans"
+  },
   "width": 500,
   "height": 500,
   "data": {

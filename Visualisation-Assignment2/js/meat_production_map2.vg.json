@@ -1,15 +1,14 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": "Meat Production around the World (1961–2017)",
   "config": {
-    "background": "transparent",
+    "background": "white",
     "view": {"stroke": "transparent"},
     "font": "Open Sans"
   },
   
   "vconcat":[
     {
-      "width": 850,
+      "width": 950,
       "height": 500,
       "projection": {"type": "equirectangular"},
       "layer":[
@@ -59,7 +58,11 @@
               "field": "geo",
               "type": "geojson"
             },
-            "color": {"field": "Production per population", "type": "quantitative", "title": "Production (kg per person)"},
+            "color": {
+              "field": "Production per population", 
+              "type": "quantitative", 
+              "title": "Production (kg per person)",
+              "legend": {"titleFontSize": 13, "labelFontSize": 12}},
             "tooltip": [
               {"field": "Entity", "type": "nominal", "title": "Country"},
               {"field": "Production per population", "type": "quantitative", "format": ",.2f", "title": "Production per population"},
@@ -81,21 +84,6 @@
       "layer": 
       [
         {
-          "mark": "point",
-          "params": [
-            {
-              "name": "year_brush",
-              "value": "2017",
-              "select": {"type": "point", "encodings": ["x"], "fields": ["Year"], "on": "mouseover", "nearest": true}
-            }
-          ],
-          "encoding": {
-            "x": {"field": "Year", "type": "ordinal", "title": "Year"},
-            "tooltip": {"field": "Year", "type": "ordinal"},
-            "opacity": {"value": 0}
-          }
-        },
-        {
           "transform": [{"filter": {"param": "year_brush"}}],
           "encoding": {
             "x": {"field": "Year", "type": "ordinal"}
@@ -115,6 +103,21 @@
               "encoding": {"text": {"field": "Year", "type": "ordinal"}, "y": {"value": -10}}
             }
           ]
+        },
+        {
+          "mark": "point",
+          "params": [
+            {
+              "name": "year_brush",
+              "value": "2017",
+              "select": {"type": "point", "encodings": ["x"], "fields": ["Year"], "on": "mouseover", "nearest": true}
+            }
+          ],
+          "encoding": {
+            "x": {"field": "Year", "type": "ordinal", "title": "Year"},
+            "tooltip": {"field": "Year", "type": "ordinal"},
+            "opacity": {"value": 0}
+          }
         }
       ]
     }

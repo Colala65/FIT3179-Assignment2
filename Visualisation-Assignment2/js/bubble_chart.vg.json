@@ -2,8 +2,6 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   
   "config": {
-    "background": "white",
-    "view": {"stroke": "transparent"},
     "font": "Open Sans"
   },
   "width": 790,
@@ -118,6 +116,7 @@
         "type": "text",
         "align": "right",
         "baseline": "middle",
+        "fontWeight": "bold",
         "dx": -5,
         "fontSize": 11
       },

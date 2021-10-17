@@ -1,0 +1,46 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "config": {
+    "background": "white",
+    "view": {"stroke": "transparent"},
+    "font": "Open Sans"
+  },
+  "width": "container",
+  "height": 500,
+  "data": {
+    "url": "https://raw.githubusercontent.com/Colala65/FIT3179-Assignment2/main/Visualisation-Assignment2/data/meat_production_cleaned.csv"   
+  },
+  "params": [
+    {
+      "name": "Year_selection",
+      "value": 2017,
+      "bind": {"input": "range", "min": 1961, "max": 2017, "step": 1, "name": "Year: "}
+    }
+  ],
+
+  "transform": [
+    {
+      "sort": [{"field": "Production", "order": "descending"}],
+      "window": [{
+        "op": "rank",
+        "as": "rank"
+      }],
+      "groupby": ["Year"]
+    },
+    {"filter": "datum.rank <= 5"},
+    {"filter": "datum.Year == Year_selection"}
+  ],
+
+  "mark": "bar",
+  "encoding": {
+    "x": {
+      "field": "Production",
+      "type": "quantitative"
+    },
+    "y": {
+      "field": "Entity",
+      "type": "nominal",
+      "sort": {"field": "Production", "op": "sum", "order": "descending"}
+    }
+  }
+}

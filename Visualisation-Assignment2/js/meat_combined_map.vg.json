@@ -1,5 +1,9 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "config": {
+    "font": "Open Sans"
+  },
+
   "params": [
     {
       "name": "Year_selection",
@@ -8,11 +12,11 @@
     }
   ],
 
-  "vconcat": [
+  "hconcat": [
     {
       "title": "Meat Production around the world (1961–2017)",
-      "width": 850,
-      "height": 500,
+      "width": 600,
+      "height": 400,
       "projection": {"type": "equirectangular"},
       
       "layer":[
@@ -62,11 +66,16 @@
               "field": "geo",
               "type": "geojson"
             },
-            "color": {"field": "Production per population", "type": "quantitative", "title": "Production (kg per person)", "legend": {"format": ".2s"}
+            "color": {
+              "field": "Production per population", 
+              "type": "quantitative", 
+              "title": ["Production", "(kg per person)"],  
+              "legend": {"orient": "left", "titleFontSize": 13, "labelFontSize": 12, "format": ".2s"},
+              "scale": {"scheme": "greens"}
           },
             "tooltip": [
               {"field": "Entity", "type": "nominal", "title": "Country"},
-              {"field": "Production per population", "type": "quantitative", "format": ",", "title": "Production per population"},
+              {"field": "Production per population", "type": "quantitative", "format": ",.2f", "title": "Production per population"},
               {"field": "Production", "type": "quantitative", "title": "Production", "format": ","},
               {"field": "Population", "type": "quantitative", "title": "Population", "format": ","}
             ]
@@ -76,10 +85,12 @@
     },
     {
     "title": "Meat Consumption around the world (1961-2017)",
-    "width": 850,
-    "height": 500,
+    "width": 600,
+    "height": 400,
     "projection": {"type": "equirectangular"},
-
+    "data": {
+      "url": "https://raw.githubusercontent.com/Colala65/FIT3179-Assignment2/main/Visualisation-Assignment2/data/meat_consumption_cleaned.csv"   
+    },
     "layer":[
       {
         "data": {
@@ -99,10 +110,6 @@
         "encoding": { "tooltip": { "field": "note" } }
       },
       {
-        "data": {
-          "url": "https://raw.githubusercontent.com/Colala65/FIT3179-Assignment2/main/Visualisation-Assignment2/data/meat_consumption_cleaned.csv"   
-        },
-        
         "transform": [{
             "lookup": "Code",
             "from": {
@@ -126,16 +133,23 @@
             "field": "geo",
             "type": "geojson"
           },
-          "color": {"field": "Consumption", "type": "quantitative", "title": "Consumption (kg per person)", "legend": {"format": ".2s"}
-        },
+          "color": {
+            "field": "Consumption", 
+            "type": "quantitative", 
+            "title": ["Consumption", "(kg per person)"], 
+            "legend": {"orient": "right", "titleFontSize": 13, "labelFontSize": 12, "format": ".2s"},
+            "scale": {"scheme": "tealblues"}
+          },
 
           "tooltip": [
             {"field": "Entity", "type": "nominal", "title": "Country"},
-            {"field": "Consumption", "type": "quantitative", "title": "Consumption per population"}
+            {"field": "Consumption", "type": "quantitative", "title": "Consumption per population", "format": ".2f"},
+            {"field": "Population", "type": "quantitative", "title": "Population", "format": ","}
           ]
+         }
         }
-      }
-    ]
-  }
+      ],
+      "resolve": {"scale": {"color": "independent"}}
+    }
   ]
 }

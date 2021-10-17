@@ -1,20 +1,18 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": "Total Meat Consumption (1990–2030)",
   "config": {
-    "background": "white",
-    "view": {"stroke": "transparent"},
     "font": "Open Sans"
   },
   "width": 790,
   "height": 500,
   "data": {
-    "url": "https://raw.githubusercontent.com/Colala65/FIT3179-Assignment2/main/Visualisation-Assignment2/data/meat_data_cleaned.csv"   
+    "url": "https://raw.githubusercontent.com/Colala65/FIT3179-Assignment2/main/Visualisation-Assignment2/data/meat_data_cleaned.csv"
   },
 
   "transform": [
     {"filter": "datum['Consumption'] > 0"},
-    {"filter": "datum['Country'] == 'WORLD'"}
+    {"filter": "datum['Country'] == 'WORLD'"},
+    {"calculate": "datum.Consumption/1000000", "as": "Consumption"}
   ],
   
   "encoding": {
@@ -32,7 +30,7 @@
         "color": {"field": "Type", "type": "nominal", "title": "Meat Type",
           "legend":{"titleFontSize": 13, "labelFontSize": 12}, "scale": {"range": ["#bf5b17", "#d62728", "#ff7f0e", "#1f77b4"]}
         },
-        "y": {"field": "Consumption", "type": "quantitative", "title": "Meat Consumption (tonnes)",
+        "y": {"field": "Consumption", "type": "quantitative", "title": "Meat Consumption (million tonnes)",
           "axis": {"tickCount": 6, "titleFontSize": 13, "labelFontSize": 11.5}}
       },
       "layer": [
@@ -51,10 +49,10 @@
         },
         "tooltip": [
           {"field": "Year", "type": "temporal", "timeUnit": "year", "title": "Year"},
-          {"field": "Beef", "type": "quantitative", "format": ",.0f"},
-          {"field": "Pig", "type": "quantitative", "format": ",.0f"},
-          {"field": "Poultry", "type": "quantitative", "format": ",.0f"},
-          {"field": "Sheep", "type": "quantitative", "format": ",.0f"}
+          {"field": "Beef", "type": "quantitative", "format": ",.2f"},
+          {"field": "Pig", "type": "quantitative", "format": ",.2f"},
+          {"field": "Poultry", "type": "quantitative", "format": ",.2f"},
+          {"field": "Sheep", "type": "quantitative", "format": ",.2f"}
         ]
       },
       "params": [{

@@ -1,8 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": "Meat Production around the World (1961–2017)",
   "config": {
-    "background": "transparent",
+    "background": "white",
     "view": {"stroke": "transparent"},
     "font": "Open Sans"
   },

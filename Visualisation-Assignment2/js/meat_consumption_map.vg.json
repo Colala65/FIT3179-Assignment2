@@ -58,7 +58,11 @@
           "field": "geo",
           "type": "geojson"
         },
-        "color": {"field": "Consumption", "type": "quantitative", "title": "Consumption (kg per person)"},
+        "color": {
+          "field": "Consumption", 
+          "type": "quantitative", 
+          "title": "Consumption (kg per person)", 
+          "legend": {"orient": "bottom","titleFontSize": 13, "labelFontSize": 12}},
 
         "tooltip": [
           {"field": "Entity", "type": "nominal", "title": "Country"},

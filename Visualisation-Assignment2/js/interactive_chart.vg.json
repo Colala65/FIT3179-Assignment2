@@ -9,10 +9,39 @@
     "url": "https://raw.githubusercontent.com/Colala65/FIT3179-Assignment2/main/Visualisation-Assignment2/data/meat_data_cleaned.csv"
   },
 
+  "params": [
+    {
+      "name": "Continent_selection",
+      "bind": {
+        "input": "select",
+        "options": [
+          "WORLD",
+          "AFRICA",
+          "ASIA",
+          "EUROPE",
+          "LATIN AMERICA",
+          "NORTH AMERICA",
+          "OCEANIA"
+        ],
+        "labels":[
+          "World",
+          "Africa",
+          "Asia",
+          "Europe",
+          "South America",
+          "North America",
+          "Oceania"
+        ],
+        "name": "Continent Selection: "
+      },
+      "value": "WORLD"
+    }
+  ],
+
   "transform": [
     {"filter": "datum['Consumption'] > 0"},
-    {"filter": "datum['Country'] == 'WORLD'"},
-    {"calculate": "datum.Consumption/1000000", "as": "Consumption"}
+    {"filter": "datum.Country == Continent_selection"},
+    {"calculate": "datum.Consumption/1000000", "as": "Consumption total"}
   ],
   
   "encoding": {
@@ -21,7 +50,7 @@
     "type": "temporal",
     "timeUnit": "year",
     "title": "Year",
-    "axis": {"tickCount": {"step": 5, "interval": "year"}, "titleFontSize": 13, "labelFontSize": 11.5}
+    "axis": {"tickCount": {"step": 5, "interval": "year"}, "titleFontSize": 13, "labelFontSize": 12}
     }
   },
   "layer": [
@@ -30,16 +59,17 @@
         "color": {"field": "Type", "type": "nominal", "title": "Meat Type",
           "legend":{"titleFontSize": 13, "labelFontSize": 12}, "scale": {"range": ["#bf5b17", "#d62728", "#ff7f0e", "#1f77b4"]}
         },
-        "y": {"field": "Consumption", "type": "quantitative", "title": "Meat Consumption (million tonnes)",
-          "axis": {"tickCount": 6, "titleFontSize": 13, "labelFontSize": 11.5}}
-      },
+        "y": {"field": "Consumption total", "type": "quantitative", "title": "Meat Consumption (million tonnes)",
+          "axis": {"tickCount": 6, "titleFontSize": 13, "labelFontSize": 12}}
+        
+        },
       "layer": [
         {"mark": "line"},
         {"transform": [{"filter": {"param": "hover", "empty": false}}], "mark": "point"}
       ]
     },
     {
-      "transform": [{"pivot": "Type", "value": "Consumption", "groupby": ["Year"]}],
+      "transform": [{"pivot": "Type", "value": "Consumption total", "groupby": ["Year"]}],
       
       "mark": "rule",
       "encoding": {

@@ -1,6 +1,5 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  
   "config": {
     "font": "Open Sans"
   },
@@ -36,7 +35,7 @@
           "Europe",
           "Oceania"
         ],
-        "name": "Continent Selection: "
+        "name": " "
       }
     }
   ],
@@ -51,7 +50,8 @@
       "field": "GDP per capita",
       "type": "quantitative",
       "axis": {"tickCount": 4, "titleFontSize": 13, "labelFontSize": 12},
-      "scale": {"type": "log", "domain": [1, 200000]}
+      "scale": {"type": "log", "domain": [1, 200000]},
+      "title": "GDP per capita (current international $)"
     },
     "y": {
       "field": "Consumption",
@@ -81,7 +81,7 @@
             "field": "continent",
             "type": "nominal",
             "title": "Continent",
-            "legend":{"titleFontSize": 13, "labelFontSize": 12},
+            "legend":{"titleFontSize": 14, "labelFontSize": 13},
             "scale": {
               "domain": [
                 "Africa",
@@ -106,7 +106,7 @@
         "tooltip": [
           {"field": "Year", "type": "quantitative"},
           {"field": "Entity", "type": "nominal", "title": "Country"},
-          {"field": "GDP per capita", "type": "quantitative", "format": ",.2f"},
+          {"field": "GDP per capita", "type": "quantitative", "format": ",.2f", "title": "GDP per capita"},
           {"field": "Consumption", "type": "quantitative", "format": ",.2f", "title": "Consumption (kg per person)"}
           ]
       }
@@ -131,7 +131,27 @@
           "value": 0 
         }
       }
-      
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "fontWeight": "bold",
+        "dx": 5,
+        "fontSize": 11
+      },
+      "encoding": {
+        "text": {"field": "Entity", "type": "nominal"},
+        "color": {"value": "black"},
+        "opacity": {
+          "condition":{
+            "test": "datum.Entity == 'United States'",
+            "value": 1 
+          },
+          "value": 0 
+        }
+      }
     }
   ]
 }

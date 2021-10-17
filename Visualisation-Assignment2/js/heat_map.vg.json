@@ -1,19 +1,16 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "config": {
-    "font": "Open Sans"
+    "font": "Open Sans",
+    "axis": {"grid": true, "tickBand": "extent"}
   },
   "width": 790,
   "height": 500,
   "data": {
     "url": "https://raw.githubusercontent.com/Colala65/FIT3179-Assignment2/main/Visualisation-Assignment2/data/meat_data_cleaned.csv"   
   },
+
   "params": [
-    {
-      "name": "Year_selection",
-      "value": 2020,
-      "bind": {"input": "range", "min": 1990, "max": 2020, "step": 1, "name": "Year: "}
-    },
     {
       "name": "Type_selection",
       "bind": {
@@ -38,43 +35,32 @@
   ],
 
   "transform": [
-    {"calculate": "datum.Production/1000000", "as": "Production total"},
-    {"filter": "datum.continent != 0"},
-    {"filter": "datum.Year == Year_selection"},
+    {"filter": "datum.Year <= 2020"},
+    {"filter": "datum.Country == 'LATIN AMERICA' | datum.Country == 'ASIA' | datum.Country == 'AFRICA' | datum.Country == 'OCEANIA' | datum.Country == 'AFRICA' | datum.Country == 'EUROPE' | datum.Country == 'NORTH AMERICA' | datum.Country == 'OCEANIA'"},
     {"filter": "Type_selection == null || datum.Type == Type_selection"},
-    {"aggregate": [{"op": "sum", "field": "Production total", "as": "Total Production"}],
-      "groupby": ["Year", "Country"]
-    },
-    {
-      "sort": [{"field": "Total Production", "order": "descending"}],
-      "window": [{
-        "op": "rank",
-        "as": "rank"
-      }],
-      "groupby": ["Year"]
-    },
-    {"filter": "datum.rank <= 6"}
+    {"aggregate": [{"op": "sum", "field": "Exports", "as": "Total"}],
+    "groupby": ["Year", "Country"]
+    }
   ],
 
-  "mark": {"type":"bar"},
+  "mark": "rect",
   "encoding": {
     "x": {
-      "field": "Total Production",
-      "type": "quantitative",
-      "title": "Production (million tonnes)",
+      "field": "Year",
+      "type": "nominal",
       "axis": {"titleFontSize": 13, "labelFontSize": 12}
     },
     "y": {
       "field": "Country",
       "type": "nominal",
-      "sort": {"field": "Total Production", "order": "descending"},
-      "title": null,
-      "axis": {"titleFontSize": 13, "labelFontSize": 12}
+      "axis": {"titleFontSize": 13, "labelFontSize": 12},
+      "title": null
     },
+    "color": {"aggregate": "sum", "field": "Total"},
     "tooltip": [
       {"field": "Year", "type": "quantitative"},
       {"field": "Country", "type": "nominal", "title": "Country"},
-      {"field": "Total Production", "type": "quantitative", "format": ",.2f", "title": "Production (million tonnes)"}
+      {"field": "Total", "type": "quantitative", "format": ",.2f", "title": "Total:"}
     ]
     
   }

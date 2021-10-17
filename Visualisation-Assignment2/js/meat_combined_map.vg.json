@@ -1,24 +1,19 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "config": {
+    "view": {"stroke": "transparent"},
     "font": "Open Sans"
   },
 
-  "params": [
-    {
-      "name": "Year_selection",
-      "value": 2017,
-      "bind": {"input": "range", "min": 1961, "max": 2017, "step": 1, "name": "Year: "}
-    }
-  ],
 
-  "hconcat": [
+  "vconcat": [
     {
-      "title": "Meat Production around the world (1961–2017)",
-      "width": 600,
-      "height": 400,
+      "width": 850,
+      "height": 420,
       "projection": {"type": "equirectangular"},
-      
+      "data": {
+        "url": "https://raw.githubusercontent.com/Colala65/FIT3179-Assignment2/main/Visualisation-Assignment2/data/meat_production_cleaned.csv"   
+      },
       "layer":[
         {
           "data": {
@@ -39,9 +34,7 @@
         },
     
         {
-          "data": {
-            "url": "https://raw.githubusercontent.com/Colala65/FIT3179-Assignment2/main/Visualisation-Assignment2/data/meat_production_cleaned.csv"   
-          },
+
           "transform": [{
               "lookup": "Code",
               "from": {
@@ -53,7 +46,7 @@
                 },
                 "as": "geo"
               },
-              {"filter": "datum.Year == Year_selection"},
+              {"filter": {"param": "year_brush"}},
               {"calculate": "datum.Production/datum.Population * 1000", "as": "Production per population"}
           ],
           "mark": {
@@ -70,8 +63,8 @@
               "field": "Production per population", 
               "type": "quantitative", 
               "title": ["Production", "(kg per person)"],  
-              "legend": {"orient": "left", "titleFontSize": 13, "labelFontSize": 12, "format": ".2s"},
-              "scale": {"scheme": "greens"}
+              "legend": {"orient": "right", "titleFontSize": 13, "labelFontSize": 12, "format": ".2s"},
+              "scale": {"scheme": "yellowgreenblue"}
           },
             "tooltip": [
               {"field": "Entity", "type": "nominal", "title": "Country"},
@@ -84,72 +77,120 @@
       ]
     },
     {
-    "title": "Meat Consumption around the world (1961-2017)",
-    "width": 600,
-    "height": 400,
-    "projection": {"type": "equirectangular"},
-    "data": {
-      "url": "https://raw.githubusercontent.com/Colala65/FIT3179-Assignment2/main/Visualisation-Assignment2/data/meat_consumption_cleaned.csv"   
-    },
-    "layer":[
-      {
-        "data": {
-            "url": "https://raw.githubusercontent.com/Colala65/FIT3179-Assignment2/main/Visualisation-Assignment2/js/ne_110m_admin_0_countries.topojson",
-            "format": { "type": "topojson", "feature": "ne_110m_admin_0_countries" }
+      "width": 850,
+      "height": 40,
+      "data": {
+        "url": "https://raw.githubusercontent.com/Colala65/FIT3179-Assignment2/main/Visualisation-Assignment2/data/meat_production_cleaned.csv"   
+      },
+
+      "transform": [{"filter": "datum.Year < 2018"}],
+      "layer": 
+      [
+        {
+          "transform": [{"filter": {"param": "year_brush"}}],
+          "encoding": {
+            "x": {"field": "Year", "type": "ordinal", "title": null}
+          },
+          "layer": [
+            {
+              "mark": {"type": "rule", "strokeWidth": 2}
+            },
+            {
+              "mark": {
+                "type": "text",
+                "align": "center",
+                "fontSize": 12,
+                "color": "black",
+                "fontWeight": "normal"
+              },
+              "encoding": {"text": {"field": "Year", "type": "ordinal"}, "y": {"value": -10}}
+            }
+          ]
         },
-        "transform": [{
-            "calculate": "'Data is not available in ' + datum.properties.NAME",
-            "as": "note"
-        }],
-        "mark": {
+        {
+          "mark": "point",
+          "params": [
+            {
+              "name": "year_brush",
+              "value": "2017",
+              "select": {"type": "point", "encodings": ["x"], "fields": ["Year"], "on": "mouseover", "nearest": true}
+            }
+          ],
+          "encoding": {
+            "x": {"field": "Year", "type": "ordinal", "title": "Year"},
+            "tooltip": {"field": "Year", "type": "ordinal"},
+            "opacity": {"value": 0}
+          }
+        }
+      ]
+    },
+    {
+      "width": 850,
+      "height": 420,
+      "projection": {"type": "equirectangular"},
+      "data": {
+        "url": "https://raw.githubusercontent.com/Colala65/FIT3179-Assignment2/main/Visualisation-Assignment2/data/meat_consumption_cleaned.csv"   
+      },
+      "layer":[
+        {
+          "data": {
+              "url": "https://raw.githubusercontent.com/Colala65/FIT3179-Assignment2/main/Visualisation-Assignment2/js/ne_110m_admin_0_countries.topojson",
+              "format": { "type": "topojson", "feature": "ne_110m_admin_0_countries" }
+          },
+          "transform": [{
+              "calculate": "'Data is not available in ' + datum.properties.NAME + ' for this year'",
+              "as": "note"
+          }],
+          "mark": {
+              "type": "geoshape",
+              "fill": "lightgray",
+              "stroke": "white",
+              "strokeWidth": 0.8
+          },
+          "encoding": { "tooltip": { "field": "note" } }
+        },
+
+        {
+          "transform": [{
+              "lookup": "Code",
+              "from": {
+                  "data": {
+                  "url": "https://raw.githubusercontent.com/Colala65/FIT3179-Assignment2/main/Visualisation-Assignment2/js/ne_110m_admin_0_countries.topojson",
+                  "format": {"type": "topojson","feature": "ne_110m_admin_0_countries"}
+                  },
+                  "key": "properties.ISO_A3"
+                },
+                "as": "geo"
+              },
+              {"filter": {"param": "year_brush"}}
+          ],
+          "mark": {
             "type": "geoshape",
-            "fill": "lightgray",
             "stroke": "white",
             "strokeWidth": 0.8
-        },
-        "encoding": { "tooltip": { "field": "note" } }
-      },
-      {
-        "transform": [{
-            "lookup": "Code",
-            "from": {
-                "data": {
-                "url": "https://raw.githubusercontent.com/Colala65/FIT3179-Assignment2/main/Visualisation-Assignment2/js/ne_110m_admin_0_countries.topojson",
-                "format": {"type": "topojson","feature": "ne_110m_admin_0_countries"}
-                },
-                "key": "properties.ISO_A3"
-              },
-              "as": "geo"
             },
-            {"filter": "datum.Year == Year_selection"}
-        ],
-        "mark": {
-          "type": "geoshape",
-          "stroke": "white",
-          "strokeWidth": 0.8
-          },
-        "encoding": {
-          "shape": {
-            "field": "geo",
-            "type": "geojson"
-          },
-          "color": {
-            "field": "Consumption", 
-            "type": "quantitative", 
-            "title": ["Consumption", "(kg per person)"], 
-            "legend": {"orient": "right", "titleFontSize": 13, "labelFontSize": 12, "format": ".2s"},
-            "scale": {"scheme": "tealblues"}
-          },
+          "encoding": {
+            "shape": {
+              "field": "geo",
+              "type": "geojson"
+            },
+            "color": {
+              "field": "Consumption", 
+              "type": "quantitative", 
+              "title": ["Consumption", "(kg per person)"], 
+              "legend": {"orient": "right", "titleFontSize": 13, "labelFontSize": 12, "format": ".2s"},
+              "scale": {"scheme": "bluepurple"}
+            },
 
-          "tooltip": [
-            {"field": "Entity", "type": "nominal", "title": "Country"},
-            {"field": "Consumption", "type": "quantitative", "title": "Consumption per population", "format": ".2f"},
-            {"field": "Population", "type": "quantitative", "title": "Population", "format": ","}
-          ]
-         }
+            "tooltip": [
+              {"field": "Entity", "type": "nominal", "title": "Country"},
+              {"field": "Consumption", "type": "quantitative", "title": "Consumption per population", "format": ".2f"},
+              {"field": "Population", "type": "quantitative", "title": "Population", "format": ","}
+            ]
+          }
         }
-      ],
-      "resolve": {"scale": {"color": "independent"}}
+      ]
     }
-  ]
+  ],
+  "resolve": {"scale": {"color": "independent"}}
 }

@@ -96,7 +96,7 @@ merged_consump_1990_2020 <- merged_consump_1990_2020 %>%
                             destination = "continent"))
 
 
-fwrite(merged_consump_1990_2020, "meat_consumption_GDP_1990_2017.csv")
+fwrite(merged_consump_1990_2020, "meat_consumption_GDP_1990_2018.csv")
 ```
 
 

@@ -6,6 +6,7 @@
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
   
+  
   <!-- CSS file -->
   <link rel="stylesheet" type="text/css" href="css/styles.css" media="all">
 
@@ -17,14 +18,17 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
-  <!--<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700;900&display=swap" rel="stylesheet"> -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 </head>
 
 <body>
   <div class="page">
-    <h1 class="title"> Global Meat Production and Consumption </h1>
-    <h3 class="subtitle"> Changes in the production and consumption of meat.</h3>
+    <div class="titleblock">
+      <h1 class="title"> Global Meat Production and Consumption </h1>
+      <h3 class="subtitle"> Changes in the production and consumption of meat.</h3>
+    </div>
 
+    <h2> Meat Production around the World (1961–2017)</h2>
     <div class="block">
       <div id="choropleth_map" class="vis-container"></div>
     </div>
@@ -33,17 +37,22 @@
       <div id="choropleth_map2" class="vis-container"></div>
     </div>
 
-    <div class="pure-g">
-      <div class="pure-u-1-1">
-          <div id="choropleth_map" class="vis-container"></div>
+    <hr class="hr3"> 
+    <h2> Top Production</h2>
+    <div class="block">
+      <div class="block-u-1-1">
+        <p> Top Producing countries </p>
+        <p> In 2017, <span style="color: #a65628; font-weight: bold">Australia</span> and the
+          <span style="color: #a6cee3; font-weight: bold">United States </span> have the two highest consumptions of meat per person. </p>
+
+        <div id="bar_chart" class="vis-container"></div>
       </div>
     </div>
-    <br>
-    <br>
 
-
-    <div class="pure-g">
-      <div class="pure-u-1-1">
+    <hr class="hr3"> 
+    <h2> Consumption and GDP per capita</h2>
+    <div class="block">
+      <div class="block-u-1-1">
         <p> People from countries with higher GDP per capita tend to consume more meat. </p>
         <p> In 2017, <span style="color: #a65628; font-weight: bold">Australia</span> and the
           <span style="color: #a6cee3; font-weight: bold">United States </span> have the two highest consumptions of meat per person. </p>
@@ -51,24 +60,23 @@
         <div id="bubble_chart" class="vis-container"></div>
       </div>
     </div>
-    <br>
-    <br>
 
-    <div class="pure-g">
-      <div class="pure-u-1-1">
+    <hr class="hr3"> 
+    <h2> Total Meat Consumption (1990–2030) </h2>
+    <div class="block">
+      <div class="block-u-1-1">
         <p> Beginning from 1990, <span style="color: #d62728; font-weight: bold">Pig</span> meat is the most consumed type of meat. Going into 2017, <span style="color: #ff7f0e; font-weight: bold">Poultry</span> eventually surpasses 
           <span style="color: #d62728; font-weight: bold">Pig</span> meat   as the most consumed. </p>
         <p> Years starting from <span style="color: #fad027; font-weight: bold"> 2021 </span> and onwards are projections. </p>
+        
         <div id="interactive_chart" class="vis-container"></div>
       </div>
     </div>
-    <br>
-    <br>
 
-    <!--<hr class="hr3"> -->
+    <hr class="hr3"> 
 
-    <div class="pure-g">
-      <div class="pure-u-1-1">
+    <div class="block">
+      <div class="block-u-1-1">
         <p>Created by Colin La</p>
         <p style="font-weight: bold">Data sources</p>
         <p>FAO (2021),
@@ -89,10 +97,11 @@
 
 <script type="text/javascript">
   var specVis1 = "js/meat_production_map2.vg.json";
-  var specVis2 = "js/meat_consumption_map.vg.json";
-  var specVis3 = "js/meat_combined_map.vg.json";
+  var specVis2 = "js/meat_combined_map.vg.json";
+  var specVis3 = "js/top_production.vg.json";
   var specVis4 = "js/bubble_chart.vg.json";
   var specVis5 = "js/interactive_chart.vg.json";
+  var specVis6 = "js/meat_combined_map.vg.json";
 
   vegaEmbed('#choropleth_map', specVis1, {"actions": false}).then(function(result) {
     // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
@@ -107,6 +116,10 @@
   }).catch(console.error);
 
   vegaEmbed('#interactive_chart', specVis5, {"actions": false}).then(function(result) {
+    // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+  }).catch(console.error);
+
+  vegaEmbed('#bar_chart', specVis3, {"actions": false}).then(function(result) {
     // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
   }).catch(console.error);
 

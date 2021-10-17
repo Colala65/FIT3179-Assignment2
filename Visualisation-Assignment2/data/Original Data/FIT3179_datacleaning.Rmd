@@ -1,0 +1,102 @@
+---
+title: "FIT3179 Datacleaning"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+library(tidyverse)
+library(broom)
+library(data.table)
+library(countrycode)
+
+production_by_type <- read_csv("global-meat-production-by-livestock-type.csv")
+
+consump_per_person_gdp_pop <- read_csv("meat-consumption-vs-gdp-per-capita.csv")
+
+consump_per_person_by_type <- read_csv("per-capita-meat-consumption-by-type-kilograms-per-year.csv")
+
+meat_data <- read_csv("Meat All Data 1990-2030 (OECD-FAO).csv")
+
+#GDP Data
+GDP_1990_2020 <- read_csv("GDP (1990-2020).csv")
+
+
+```
+
+```{r}
+meat_data_wider <- pivot_wider(meat_data, names_from=Variable, values_from=Value)
+
+meat_data_wider <- meat_data_wider %>%
+  mutate(continent=countrycode(sourcevar = meat_data_wider[["Code"]],
+                            origin = "iso3c",
+                            destination = "continent"))
+
+# Renaming columns and rows
+meat_data_wider <- meat_data_wider %>%
+  rename("Consumption per capita" = "Human consumption per capita") %>%
+  rename("GHG" = "Direct GHG emission")
+
+meat_data_wider$Type[meat_data_wider$Type == "Beef and veal"] <- "Beef"
+
+meat_data_wider$Type[meat_data_wider$Type == "Pigmeat"] <- "Pig"
+
+meat_data_wider$Type[meat_data_wider$Type == "Poultry meat"] <- "Poultry"
+
+meat_data_wider$Type[meat_data_wider$Type == "Sheepmeat"] <- "Sheep"
+
+
+# Multiply columns
+meat_data_wider$Production <- meat_data_wider$Production * 1000
+meat_data_wider$Consumption <- meat_data_wider$Consumption * 1000
+meat_data_wider$Imports <- meat_data_wider$Imports * 1000
+meat_data_wider$Exports <- meat_data_wider$Exports * 1000
+
+# Add GDP data by joining
+GDP_longer <- pivot_longer(GDP_1990_2020, cols=3:33, names_to ="Year", values_to="GDP per capita", names_transform=list(Year = as.numeric))
+  
+meat_data_gdp <- left_join(meat_data_wider, GDP_longer)
+
+
+fwrite(meat_data_gdp, "meat_data_cleaned.csv")
+
+```
+
+```{r, echo=FALSE}
+# Meat Consumption
+merged_consump <- merge(consump_per_person_by_type, consump_per_person_gdp_pop, by=c("Entity", "Code", "Year"))
+
+merged_consump <- merged_consump %>% mutate(Consumption=select(., 4:8) %>% rowSums(na.rm=TRUE))
+
+merged_consump <- subset(merged_consump, select = -c(9))
+
+# Meat Production
+product_total <- production_by_type %>% mutate(Production=select(., 4:12) %>% rowSums(na.rm=TRUE))
+
+merged_product <- merge(product_total, consump_per_person_gdp_pop, by=c("Entity", "Code", "Year"))
+
+merged_product <- subset(merged_product, select = -c(14))
+
+fwrite(merged_product, "meat_production_cleaned.csv")
+fwrite(merged_consump, "meat_consumption_cleaned.csv")
+
+```
+
+```{r}
+# For 1990 - 2020
+GDP_1990_2020_longer <- pivot_longer(GDP_1990_2020, cols=3:33, names_to ="Year", values_to="GDP per capita")
+
+merged_consump_1990_2020 <- merge(consump_per_person_by_type, GDP_1990_2020_longer, by=c("Entity", "Code", "Year")) 
+
+merged_consump_1990_2020 <- merged_consump_1990_2020 %>% mutate(Consumption=select(., 4:8) %>% rowSums(na.rm=TRUE))
+
+merged_consump_1990_2020 <- merged_consump_1990_2020 %>%
+  mutate(continent=countrycode(sourcevar = merged_consump_1990_2020[, "Entity"],
+                            origin = "country.name",
+                            destination = "continent"))
+
+
+fwrite(merged_consump_1990_2020, "meat_consumption_GDP_1990_2018.csv")
+```
+
+

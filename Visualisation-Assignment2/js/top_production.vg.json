@@ -3,7 +3,7 @@
   "config": {
     "font": "Open Sans"
   },
-  "width": 790,
+  "width": 935,
   "height": 500,
   "data": {
     "url": "https://raw.githubusercontent.com/Colala65/FIT3179-Assignment2/main/Visualisation-Assignment2/data/meat_data_cleaned.csv"   

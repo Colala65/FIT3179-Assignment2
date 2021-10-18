@@ -1,0 +1,23 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 300, "height": 200,
+  "data": {"url": "https://raw.githubusercontent.com/Colala65/FIT3179-Assignment2/main/Visualisation-Assignment2/data/meat_data_cleaned.csv"},
+  "transform": [
+    {"filter": "datum['Consumption'] > 0"},
+    {"filter": "datum.continent != 0"},
+    {"filter": "datum.Year == 2016"},
+    {"calculate": "datum.Consumption/1000000", "as": "Consumption total"},
+    {"calculate": "{'Beef': '🐄', 'Pig': '🐖', 'Poultry': '🐓', 'Sheep': '🐏'}[datum.Type]", "as": "emoji"},
+    {"window": [{"op": "rank", "as": "rank"}], "groupby": ["Type", "Country"]}
+  ],
+
+  "mark": {"type": "text", "baseline": "middle"},
+  "encoding": {
+    "x": {"field": "rank", "type": "ordinal", "axis": null},
+    "y": {"field": "Type", "type": "nominal", "axis": null, "sort": null},
+    "row": {"field": "Country", "header": {"title": ""}},
+    "text": {"field": "emoji", "type": "nominal"},
+    "size": {"value": 65}
+  }
+
+}
